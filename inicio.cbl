@@ -29,7 +29,7 @@
 
        01  REG-CLIENTES.
            03 ID_CLIENTE.
-                05 CLI_ID                 PIC 9(7).
+              05 CLI_ID                   PIC 9(7).
            03 CLI_SALDO                   PIC S9(7)V9(3).
            03 CLI_NOMBRE                  PIC X(60).
            03 CLI_DIRECCION               PIC X(80).
@@ -42,13 +42,13 @@
            03 FILLER                      PIC X(240).
 
        WORKING-STORAGE SECTION.
-
        01  ST-FILE   PIC XX.
+       01  X         PIC X.
 
        PROCEDURE DIVISION.
        FERNANDO.
               PERFORM ABRO-ARCHIVOS.
-              PERFORM GRABO-DATOS THRU F-GRABO-DATOS.
+              PERFORM LEO-DATOS THRU F-LEO-DATOS.
               PERFORM CIERRO-ARCHIVOS.
               STOP RUN.
 
@@ -82,7 +82,33 @@
 
            IF ST-FILE > "07"
               DISPLAY "ERROR GRABANDO EL ARCHIVO".
+
        F-GRABO-DATOS.
            EXIT.
+
+       LEO-DATOS.
+           INITIALIZE REG-CLIENTES.
+           START CLIENTES KEY IS NOT LESS THAN ID_CLIENTE.
+           READ CLIENTES NEXT RECORD.
+           IF ST-FILE = "99" GO TO LEO-DATOS.
+       *>  OJO CON EL GO TO
+       *>  "99 NO ES UN ERROR, ES ALARMA DE QUE ESTA OCUPADO EL ARCH"
+       *>  LA DIFERENCIA ENTRE EL PERFORM Y EL GOTO ES QUE EL PRIMERO
+       *>  VA, EJECUTA Y VUELVE. EN CAMBIO EL GO TO EJECUTO Y NO VUELVE
+       *>  MAS.
+           IF ST-FILE >"07"
+                  DISPLAY "ERROR LEYENDO EL ARCHIVO".
+
+       MUESTRO-DATOS.
+           DISPLAY CLI_ID          LINE 10 COL 30.
+           DISPLAY CLI_SALDO       LINE 11 COL 30.
+           DISPLAY CLI_NOMBRE      LINE 12 COL 30.
+           DISPLAY CLI_DIRECCION   LINE 13 COL 30.
+           ACCEPT X                LINE 14 COL 70.
+
+       F-LEO-DATOS.
+           EXIT.
+
+
 
        END PROGRAM "INICIO".
