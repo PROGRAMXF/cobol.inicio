@@ -44,6 +44,10 @@
        WORKING-STORAGE SECTION.
        01  ST-FILE   PIC XX.
        01  X         PIC X.
+       77  BANDERA   PIC 9.
+       01  SALDO-Z   PIC Z(6)9.99.
+       *>CON Z COLOCCO ESPACIOS EN LUGAR DE CEROS
+       01  SALDO-ZZ  PIC ------9.99.
 
        PROCEDURE DIVISION.
        FERNANDO.
@@ -100,8 +104,14 @@
                   DISPLAY "ERROR LEYENDO EL ARCHIVO".
 
        MUESTRO-DATOS.
+           MOVE    -155836 TO SALDO-ZZ.
+           DISPLAY "ID_CLIENTE"    LINE 10 COL 5
+           DISPLAY "SALDO"         LINE 11 COL 5
+           DISPLAY "NOMBRE"        LINE 12 COL 5
+           DISPLAY "DIRECCION"     LINE 13 COL 5
+
            DISPLAY CLI_ID          LINE 10 COL 30.
-           DISPLAY CLI_SALDO       LINE 11 COL 30.
+           DISPLAY SALDO-ZZ        LINE 11 COL 30.
            DISPLAY CLI_NOMBRE      LINE 12 COL 30.
            DISPLAY CLI_DIRECCION   LINE 13 COL 30.
            ACCEPT X                LINE 14 COL 70.
