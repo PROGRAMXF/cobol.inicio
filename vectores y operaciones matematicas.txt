@@ -45,17 +45,39 @@
        01  ST-FILE   PIC XX.
        01  X         PIC X.
        77  BANDERA   PIC 9.
+       01  TOTAL-FACTURA PIC S9(6)V99.
        01  SALDO-Z   PIC Z(6)9.99.
        *>CON Z COLOCCO ESPACIOS EN LUGAR DE CEROS
        01  SALDO-ZZ  PIC ------9.99.
-
-
+       
+       01  MESES.
+              03 MES OCCURS 12 TIMES.
+                 05 MES-NOMBRE         PIC X(20).
+                 
+       01  VARIABLES.
+              03 VALORES OCCURS 12 TIMES.
+                 05 VALORDIA OCCURS 31 TIMES.
+                 07 VALOR-VENTA        PIC S9(09)V999.
+       
+       01  FECHA-AUX.
+           02 AA                          PIC 9999.
+           02 MM                          PIC 99.
+           02 DD                          PIC 99.
+       
        PROCEDURE DIVISION.
        FERNANDO.
-              PERFORM ABRO-ARCHIVOS.
-              PERFORM LEO-DATOS THRU F-LEO-DATOS.
-              PERFORM CIERRO-ARCHIVOS.
-              STOP RUN.
+           MOVE "ENERO" TO MES-NOMBRE(01).
+           MOVE "FEBRERO" TO MES-NOMBRE(01).
+           MOVE  FACT-FECHA TO FECHA-AUX
+              
+           COMPUTE VALOR-VENTA(MM, DD) ROUNDED = VALOR-VENTA(MM, DD)+
+           TOTAL-FACTURA.
+              
+           ADD TOTAL-FACTURA TO VALOR-VENTA(MM, DD).
+           SUBTRACT TOTAL-FACTURA FROM VALOR-VENTA(MM, DD).
+           MULTIPLY
+           DIVIDE
+           STOP RUN.
 
        ABRO-ARCHIVOS.
                   OPEN I-O CLIENTES.
