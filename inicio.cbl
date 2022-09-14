@@ -38,7 +38,8 @@
            03 CLI_ALT_2.
                   05 CLI_CATEGORIA_2      PIC X.
                   05 CLI_NOMBRE_2         PIC X(60).
-                  05 CLI_RAZONSOCIAL      PIC X(60).
+           03 CLI_RAZONSOCIAL             PIC X(60).
+
            03 FILLER                      PIC X(240).
 
        WORKING-STORAGE SECTION.

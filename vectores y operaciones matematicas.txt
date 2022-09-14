@@ -1,4 +1,4 @@
-      ******************************************************************
+     
       * Author:
       * Date:
       * Purpose:
@@ -39,6 +39,9 @@
                   05 CLI_CATEGORIA_2      PIC X.
                   05 CLI_NOMBRE_2         PIC X(60).
                   05 CLI_RAZONSOCIAL      PIC X(60).
+           03 CLI_VENTAS.
+               04 CLIVENTAS OCCURS 12 TIMES.
+                  05 CLI_TOTAL            PIC S9(9)V99.
            03 FILLER                      PIC X(240).
 
        WORKING-STORAGE SECTION.
@@ -70,8 +73,8 @@
            MOVE "FEBRERO" TO MES-NOMBRE(01).
            MOVE  FACT-FECHA TO FECHA-AUX
               
-           COMPUTE VALOR-VENTA(MM, DD) ROUNDED = VALOR-VENTA(MM, DD)+
-           TOTAL-FACTURA.
+           COMPUTE VALOR-VENTA(MM, DD) ROUNDED = (CLI_TOTAL(MM)+
+           TOTAL-FACTURA) * -1/15.
               
            ADD TOTAL-FACTURA TO VALOR-VENTA(MM, DD).
            SUBTRACT TOTAL-FACTURA FROM VALOR-VENTA(MM, DD).
